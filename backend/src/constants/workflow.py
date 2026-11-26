@@ -15,3 +15,9 @@ class RunStatus(StrEnum):
 class Decision(StrEnum):
     APPROVED = 'approved'
     REJECTED = 'rejected'
+
+
+class RetestStatus(StrEnum):
+    DRAFT = 'draft'
+    STALE = 'stale'
+    SIGNED = 'signed'

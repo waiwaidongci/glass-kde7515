@@ -24,6 +24,9 @@ API 默认监听 `127.0.0.1:19347`。接口文档在 `/api/docs`，机器可读�
 2. `GET /api/spec` 查看 CSV 列、参数和结果口径。`GET /api/datasets` 查找演示台账，或用 `POST /api/datasets` 提交带 `name`、`csv` 的 JSON。
 3. `POST /api/runs` 提交 `dataset_id`、`label` 和可选的 `settings`。响应包含运行 ID 及最终状态。`GET /api/runs/{id}` 返回业务指标、表格或失败原因。
 4. 负责人调用 `POST /api/runs/{id}/review`，提交 `decision`（`approved` 或 `rejected`）和 `note`。批准后可通过 `GET /api/runs/{id}/export/{table_key}` 下载业务表。表名和字段从运行结果取得。
+5. 校准方案通过 `POST /api/calibrations` 建档（绑定台账、按台给修正量），晚到记录用 `PUT /api/calibrations/{id}` 更新并自动升版本。
+6. `POST /api/retests` 按 `dataset_id` 和 `quota`（复测名额）生成复测清单：各方案沿用原场次分组重选带宽、全批找峰谷，超差峰的谷间测件进入待查，再按最大化最低覆盖率分配名额。方案更新会使未签清单失效，需重新生成。
+7. 负责人 `POST /api/retests/{id}/sign` 签发（并发更正按当时有效方案校验，冲突返回 409），签发后 `GET /api/retests/{id}/export` 下载复测 CSV；viewer 只能查看和导出已签发清单。
 
 ## 代码与配置
 

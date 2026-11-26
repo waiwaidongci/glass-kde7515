@@ -27,7 +27,7 @@ SPEC = {
 }
 
 
-def _settings(values):
+def check_settings(values):
     parameters = {item['key']: item for item in SPEC['settings']}
     if not isinstance(values, dict) or values.keys() - parameters.keys():
         raise ValueError('检测到未定义的测径运行参数')
@@ -45,7 +45,7 @@ def _settings(values):
 
 
 def analyze(rows, settings):
-    checked = _settings(settings)
+    checked = check_settings(settings)
     rows = normalize_rows(rows)
     samples = np.array([row['diameter_mm'] for row in rows])
     fit_mask = np.array([row['split'] == 'fit' for row in rows])
